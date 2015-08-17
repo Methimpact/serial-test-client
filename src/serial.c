@@ -13,7 +13,7 @@ struct termios stdio;
 struct termios old_stdio;
 int tty_fd;
 
-int serial_init(const char *file) {
+int serial_init(const char *file, const speed_t *speed ) {
 
 	tcgetattr(STDOUT_FILENO,&old_stdio);
 
@@ -38,8 +38,8 @@ int serial_init(const char *file) {
 	tio.c_cc[VTIME]=5;
 
 	tty_fd=open(file, O_RDWR | O_NONBLOCK);
-	cfsetospeed(&tio,B115200);            // 115200 baud
-	cfsetispeed(&tio,B115200);            // 115200 baud
+	cfsetospeed(&tio,speed);//B115200);            // 115200 baud
+	cfsetispeed(&tio,speed);//B115200);            // 115200 baud
 
 	tcsetattr(tty_fd,TCSANOW,&tio);
 
